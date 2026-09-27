@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AsRe Uploader</title>
+  <meta name="description" content="AsRe Uploader – a private tool that uploads videos to the operator's own YouTube channel via the YouTube Data API.">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/lang.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="index.html">AsRe <span>Uploader</span></a>
+  <nav>
+    <a href="index.html" aria-current="page">Home</a>
+    <a href="privacy.html">Privacy / Datenschutz</a>
+    <a href="terms.html">Terms / Nutzungsbedingungen</a>
+    <a href="impressum.html">Impressum</a>
+  </nav>
+  <div class="lang-switch">
+    <button type="button" data-set-lang="en">EN</button>
+    <button type="button" data-set-lang="de">DE</button>
+  </div>
+</header>
+
+<main>
+  <!-- ===================== ENGLISH ===================== -->
+  <section class="l-en" lang="en">
+    <h1>AsRe Uploader</h1>
+    <p class="lead">A private, non-commercial tool that uploads videos to my own YouTube channel.</p>
+
+    <h2>What the app does</h2>
+    <p>AsRe Uploader is a small script that runs locally on my own computer. It automates one task: uploading finished video files, together with their title, description, tags and privacy setting, to <strong>my own YouTube channel</strong> using the official YouTube Data API v3.</p>
+    <p>The tool is not offered to the public. There are no user accounts, no sign-up and no other users – the only Google account ever connected is my own.</p>
+
+    <h2>Google permissions</h2>
+    <p>The app requests exactly one OAuth scope:</p>
+    <p><code>https://www.googleapis.com/auth/youtube.upload</code> – “Manage your YouTube videos” (upload only)</p>
+    <p>It does not read, analyse or manage any other data of the YouTube or Google account (no comments, analytics, subscribers, playlists, e-mail or contacts).</p>
+
+    <h2>How data is handled</h2>
+    <ul>
+      <li>OAuth access and refresh tokens are stored <strong>only locally</strong> on my computer.</li>
+      <li>There is no server, no database and no third-party service involved – data flows only between my computer and Google/YouTube.</li>
+      <li>No data is sold, shared or used for advertising or for training AI models.</li>
+      <li>Access can be revoked at any time at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.</li>
+    </ul>
+    <p>Details: <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="impressum.html">Impressum</a></p>
+
+    <div class="box">
+      AsRe Uploader uses YouTube API Services. By using it you agree to be bound by the
+      <a href="https://www.youtube.com/t/terms">YouTube Terms of Service</a>.
+      See also the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.
+      This project is not affiliated with, endorsed by or sponsored by Google LLC or YouTube.
+    </div>
+
+    <h2>Contact</h2>
+    <p>René Ascher · <a href="mailto:reneascher1301@gmail.com">reneascher1301@gmail.com</a></p>
+  </section>
+
+  <hr class="lang-sep">
+
+  <!-- ===================== DEUTSCH ===================== -->
+  <section class="l-de" lang="de">
+    <h1>AsRe Uploader</h1>
+    <p class="lead">Ein privates, nicht-kommerzielles Tool, das Videos auf meinen eigenen YouTube-Kanal hochlädt.</p>
+
+    <h2>Was die App macht</h2>
+    <p>AsRe Uploader ist ein kleines Skript, das lokal auf meinem eigenen Computer läuft. Es automatisiert genau eine Aufgabe: fertige Videodateien samt Titel, Beschreibung, Tags und Sichtbarkeit über die offizielle YouTube Data API v3 auf <strong>meinen eigenen YouTube-Kanal</strong> hochzuladen.</p>
+    <p>Das Tool wird der Öffentlichkeit nicht angeboten. Es gibt keine Benutzerkonten, keine Registrierung und keine weiteren Nutzer:innen – verbunden wird ausschließlich mein eigenes Google-Konto.</p>
+
+    <h2>Google-Berechtigungen</h2>
+    <p>Die App fordert genau einen OAuth-Scope an:</p>
+    <p><code>https://www.googleapis.com/auth/youtube.upload</code> – „YouTube-Videos verwalten“ (nur Hochladen)</p>
+    <p>Andere Daten des YouTube- bzw. Google-Kontos (Kommentare, Analytics, Abonnent:innen, Playlists, E-Mail, Kontakte) werden weder gelesen noch ausgewertet oder verwaltet.</p>
+
+    <h2>Umgang mit Daten</h2>
+    <ul>
+      <li>OAuth-Access- und Refresh-Tokens werden <strong>ausschließlich lokal</strong> auf meinem Computer gespeichert.</li>
+      <li>Es gibt keinen Server, keine Datenbank und keine Drittanbieter – Daten fließen nur zwischen meinem Computer und Google/YouTube.</li>
+      <li>Es werden keine Daten verkauft, weitergegeben oder für Werbung bzw. zum Training von KI-Modellen verwendet.</li>
+      <li>Der Zugriff kann jederzeit unter <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a> widerrufen werden.</li>
+    </ul>
+    <p>Details: <a href="privacy.html">Datenschutzerklärung</a> · <a href="terms.html">Nutzungsbedingungen</a> · <a href="impressum.html">Impressum</a></p>
+
+    <div class="box">
+      AsRe Uploader nutzt die YouTube API Services. Mit der Nutzung stimmst du den
+      <a href="https://www.youtube.com/t/terms">Nutzungsbedingungen von YouTube</a> zu.
+      Siehe auch die <a href="https://policies.google.com/privacy">Datenschutzerklärung von Google</a>.
+      Dieses Projekt steht in keiner Verbindung zu Google LLC oder YouTube und wird von diesen weder unterstützt noch gesponsert.
+    </div>
+
+    <h2>Kontakt</h2>
+    <p>René Ascher · <a href="mailto:reneascher1301@gmail.com">reneascher1301@gmail.com</a></p>
+  </section>
+</main>
+
+<footer>
+  © 2026 René Ascher ·
+  <a href="privacy.html">Privacy / Datenschutz</a> ·
+  <a href="terms.html">Terms / Nutzungsbedingungen</a> ·
+  <a href="impressum.html">Impressum</a>
+</footer>
+</body>
+</html>
