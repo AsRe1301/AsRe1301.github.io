@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Privacy Policy – AsRe Uploader</title>
-  <meta name="description" content="Privacy Policy / Datenschutzerklärung for AsRe Uploader.">
+  <title>Privacy Policy – AsRe Channel Tools</title>
+  <meta name="description" content="Privacy Policy / Datenschutzerklärung for AsRe Channel Tools.">
   <link rel="stylesheet" href="assets/style.css">
   <script src="assets/lang.js"></script>
 </head>
 <body>
 <header>
-  <a class="brand" href="index.html">AsRe <span>Uploader</span></a>
+  <a class="brand" href="index.html">AsRe <span>Channel Tools</span></a>
   <nav>
     <a href="index.html">Home</a>
     <a href="privacy.html" aria-current="page">Privacy / Datenschutz</a>
@@ -34,60 +34,71 @@
     E-mail: <a href="mailto:reneascher1301@gmail.com">reneascher1301@gmail.com</a></p>
 
     <h2>2. About the app</h2>
-    <p>AsRe Uploader (“the app”) is a private, non-commercial tool that runs locally on the operator’s own computer. Its only purpose is to upload videos and their metadata (title, description, tags, category, privacy status) to the operator’s own YouTube channel via the YouTube Data API v3. The app is not offered to third parties and has no other users.</p>
+    <p>AsRe Channel Tools (“the app”) is a private, non-commercial set of scripts that runs locally on the operator’s own computer. It is used exclusively by the operator to upload videos to, maintain, and analyse the operator’s own YouTube channels. The app is not offered to third parties and has no other users.</p>
 
     <h2>3. Google user data accessed</h2>
-    <p>The app requests a single OAuth 2.0 scope:</p>
-    <p><code>https://www.googleapis.com/auth/youtube.upload</code></p>
-    <p>With this permission the app can only upload videos to the connected channel. It does <strong>not</strong> access, read or store any other Google or YouTube account data – for example e-mail address, contacts, comments, playlists, subscribers or analytics.</p>
-    <p>Data processed by the app:</p>
-    <ul>
-      <li><strong>OAuth tokens</strong> (access token and refresh token) issued by Google after the operator grants consent.</li>
-      <li><strong>Video files and metadata</strong> that the operator selects locally and that are sent to YouTube during the upload.</li>
-      <li><strong>API responses</strong> from YouTube (e.g. the ID of the uploaded video), used only to confirm a successful upload.</li>
-    </ul>
+    <p>The app requests the following OAuth 2.0 scopes. Each scope is used only for the purpose stated:</p>
+    <dl>
+      <dt><code>youtube.upload</code></dt><dd>Uploading video files with title, description, tags, category and scheduled publication date.</dd>
+      <dt><code>youtube.readonly</code></dt><dd>Reading the list of the connected channel’s uploads, video metadata and statistics (views, likes, comment counts), and identifying the connected channel.</dd>
+      <dt><code>youtube.force-ssl</code></dt><dd>Updating title, description, tags and privacy status of the operator’s own videos. This scope is not used to post, edit or delete comments or any other content.</dd>
+      <dt><code>yt-analytics.readonly</code></dt><dd>Reading YouTube Analytics reports of the connected channel (e.g. views, watch time, average view duration, audience retention, traffic sources, subscribers gained/lost).</dd>
+      <dt><code>yt-analytics-monetary.readonly</code></dt><dd>Reading estimated revenue reports of the connected channel.</dd>
+    </dl>
+    <p>The app does <strong>not</strong> access e-mail, contacts, calendar or any other Google account data, and does not read personal data of viewers. YouTube Analytics reports contain only aggregated, anonymous audience data.</p>
+    <p>In addition, the app may read <strong>publicly available</strong> YouTube data of other channels (search results, public channel and video statistics) for market research.</p>
 
     <h2>4. How the data is used</h2>
-    <p>The data is used exclusively to perform uploads to the operator’s own YouTube channel. It is not used for any other purpose.</p>
+    <ul>
+      <li>Uploading and scheduling the operator’s videos.</li>
+      <li>Keeping metadata and privacy status of the operator’s videos up to date.</li>
+      <li>Evaluating the performance of published videos in order to improve future videos.</li>
+    </ul>
+    <p>The data is not used for any other purpose.</p>
 
     <h2>5. Storage and security</h2>
     <ul>
-      <li>OAuth tokens are stored <strong>only locally</strong> in a file on the operator’s computer. They are never uploaded to any server, repository or cloud service operated by the developer.</li>
-      <li>The app has no backend server and no database. Network communication takes place only between the local computer and Google’s OAuth and YouTube API endpoints, encrypted via HTTPS.</li>
-      <li>The OAuth client secret and token files are excluded from version control and are protected by the security measures of the operator’s computer.</li>
+      <li>OAuth tokens (access and refresh tokens) are stored <strong>only locally</strong> in files on the operator’s computer, one file per connected channel.</li>
+      <li>Downloaded statistics and reports are stored locally as files (e.g. JSON, spreadsheets).</li>
+      <li>The app has no backend server and no database. Communication with Google’s OAuth, YouTube Data API and YouTube Analytics API endpoints is encrypted via HTTPS.</li>
+      <li>Client secret, token files and statistics are excluded from version control and are never published.</li>
     </ul>
 
-    <h2>6. Sharing and disclosure</h2>
-    <p>Google user data is <strong>not</strong> sold, rented, shared or transferred to any third party. It is not used for advertising, profiling, or to develop, improve or train generalized or non-personalized AI/ML models. No one other than the operator, as the account owner, has access to the data.</p>
+    <h2>6. Use of an AI assistant</h2>
+    <p>To evaluate results and plan improvements, video metadata and aggregated statistics of the operator’s own channels may be processed with the AI assistant Claude (Anthropic PBC) on the operator’s behalf. This happens solely to provide insights to the operator. The data is not transferred to Anthropic or anyone else for any other purpose, and the operator has opted out of the use of this data for training AI models.</p>
 
-    <h2>7. Limited Use disclosure</h2>
-    <p>AsRe Uploader’s use and transfer of information received from Google APIs will adhere to the
+    <h2>7. Sharing and disclosure</h2>
+    <p>Google user data is <strong>not</strong> sold, rented or shared with third parties, except the processing described in section 6. It is not used for advertising, profiling, or to develop, improve or train generalized or non-personalized AI/ML models. No one other than the operator, as the owner of the channels, has access to the data.</p>
+
+    <h2>8. Limited Use disclosure</h2>
+    <p>AsRe Channel Tools’ use and transfer of information received from Google APIs will adhere to the
     <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>,
     including the Limited Use requirements.</p>
 
-    <h2>8. YouTube API Services</h2>
+    <h2>9. YouTube API Services</h2>
     <p>The app uses YouTube API Services. By using the app you agree to the
     <a href="https://www.youtube.com/t/terms">YouTube Terms of Service</a>.
     Google’s processing of data is governed by the
     <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.</p>
 
-    <h2>9. Retention and deletion</h2>
+    <h2>10. Retention and deletion</h2>
     <ul>
-      <li>Tokens are kept locally until the operator deletes the token file or revokes access.</li>
-      <li>Access can be revoked at any time at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a> (Google Account → Security → Third-party apps with account access). After revocation the stored tokens become invalid and are deleted locally.</li>
+      <li>Tokens and statistics of the operator’s channels are kept locally as long as the authorization is active and the data is needed for analysis.</li>
+      <li>Access can be revoked at any time via the Google security settings at <a href="https://security.google.com/settings/security/permissions">security.google.com/settings/security/permissions</a>. After revocation, the stored tokens and data obtained through the authorization are deleted within 7 days.</li>
+      <li>Public data of other channels is refreshed or deleted within 30 days.</li>
       <li>Uploaded videos are stored by YouTube and can be managed or deleted in YouTube Studio.</li>
       <li>To request deletion of any data, contact <a href="mailto:reneascher1301@gmail.com">reneascher1301@gmail.com</a>.</li>
     </ul>
 
-    <h2>10. This website</h2>
+    <h2>11. This website</h2>
     <p>This website is a static site hosted on GitHub Pages (GitHub Inc., USA). It uses no cookies, no analytics and no tracking. When you visit it, GitHub may process technical data such as your IP address in server logs for security and operational purposes; see the
     <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a>.
     Your language choice (EN/DE) is stored only in your browser’s local storage.</p>
 
-    <h2>11. Your rights</h2>
+    <h2>12. Your rights</h2>
     <p>Under the GDPR you have the right to access, rectification, erasure, restriction of processing, data portability and objection. You may also lodge a complaint with the Austrian Data Protection Authority (<a href="https://www.dsb.gv.at">Datenschutzbehörde, dsb.gv.at</a>).</p>
 
-    <h2>12. Changes</h2>
+    <h2>13. Changes</h2>
     <p>This policy may be updated if the app changes. The current version is always available on this page.</p>
   </section>
 
@@ -103,60 +114,71 @@
     E-Mail: <a href="mailto:reneascher1301@gmail.com">reneascher1301@gmail.com</a></p>
 
     <h2>2. Über die App</h2>
-    <p>AsRe Uploader („die App“) ist ein privates, nicht-kommerzielles Tool, das lokal auf dem Computer des Betreibers läuft. Einziger Zweck ist das Hochladen von Videos und deren Metadaten (Titel, Beschreibung, Tags, Kategorie, Sichtbarkeit) auf den eigenen YouTube-Kanal des Betreibers über die YouTube Data API v3. Die App wird Dritten nicht angeboten und hat keine weiteren Nutzer:innen.</p>
+    <p>AsRe Channel Tools („die App“) ist eine private, nicht-kommerzielle Sammlung von Skripten, die lokal auf dem Computer des Betreibers läuft. Sie wird ausschließlich vom Betreiber genutzt, um Videos auf die eigenen YouTube-Kanäle des Betreibers hochzuladen, diese zu pflegen und auszuwerten. Die App wird Dritten nicht angeboten und hat keine weiteren Nutzer:innen.</p>
 
     <h2>3. Verwendete Google-Nutzerdaten</h2>
-    <p>Die App fordert einen einzigen OAuth-2.0-Scope an:</p>
-    <p><code>https://www.googleapis.com/auth/youtube.upload</code></p>
-    <p>Mit dieser Berechtigung kann die App ausschließlich Videos auf den verbundenen Kanal hochladen. Sie greift auf <strong>keine</strong> anderen Daten des Google- oder YouTube-Kontos zu – etwa E-Mail-Adresse, Kontakte, Kommentare, Playlists, Abonnent:innen oder Analytics – und speichert diese auch nicht.</p>
-    <p>Von der App verarbeitete Daten:</p>
-    <ul>
-      <li><strong>OAuth-Tokens</strong> (Access-Token und Refresh-Token), die Google nach der Zustimmung des Betreibers ausstellt.</li>
-      <li><strong>Videodateien und Metadaten</strong>, die der Betreiber lokal auswählt und die beim Upload an YouTube übertragen werden.</li>
-      <li><strong>API-Antworten</strong> von YouTube (z. B. die ID des hochgeladenen Videos), die nur zur Bestätigung eines erfolgreichen Uploads dienen.</li>
-    </ul>
+    <p>Die App fordert folgende OAuth-2.0-Scopes an. Jeder Scope wird nur für den genannten Zweck verwendet:</p>
+    <dl>
+      <dt><code>youtube.upload</code></dt><dd>Hochladen von Videodateien mit Titel, Beschreibung, Tags, Kategorie und geplantem Veröffentlichungstermin.</dd>
+      <dt><code>youtube.readonly</code></dt><dd>Lesen der Upload-Liste des verbundenen Kanals, der Video-Metadaten und Statistiken (Aufrufe, Likes, Anzahl Kommentare) sowie Identifizieren des verbundenen Kanals.</dd>
+      <dt><code>youtube.force-ssl</code></dt><dd>Ändern von Titel, Beschreibung, Tags und Sichtbarkeit der eigenen Videos des Betreibers. Dieser Scope wird nicht verwendet, um Kommentare oder andere Inhalte zu veröffentlichen, zu bearbeiten oder zu löschen.</dd>
+      <dt><code>yt-analytics.readonly</code></dt><dd>Lesen von YouTube-Analytics-Berichten des verbundenen Kanals (z. B. Aufrufe, Wiedergabezeit, durchschnittliche Wiedergabedauer, Zuschauerbindung, Traffic-Quellen, gewonnene/verlorene Abonnent:innen).</dd>
+      <dt><code>yt-analytics-monetary.readonly</code></dt><dd>Lesen von Berichten zu geschätzten Einnahmen des verbundenen Kanals.</dd>
+    </dl>
+    <p>Die App greift <strong>nicht</strong> auf E-Mails, Kontakte, Kalender oder sonstige Daten des Google-Kontos zu und liest keine personenbezogenen Daten von Zuschauer:innen. YouTube-Analytics-Berichte enthalten nur zusammengefasste, anonyme Zuschauerdaten.</p>
+    <p>Zusätzlich kann die App <strong>öffentlich verfügbare</strong> YouTube-Daten anderer Kanäle (Suchergebnisse, öffentliche Kanal- und Videostatistiken) zur Marktrecherche abrufen.</p>
 
     <h2>4. Zweck der Verarbeitung</h2>
-    <p>Die Daten werden ausschließlich für Uploads auf den eigenen YouTube-Kanal des Betreibers verwendet und zu keinem anderen Zweck.</p>
+    <ul>
+      <li>Hochladen und Planen der Videos des Betreibers.</li>
+      <li>Aktuell-Halten von Metadaten und Sichtbarkeit der Videos des Betreibers.</li>
+      <li>Auswerten der Leistung veröffentlichter Videos, um künftige Videos zu verbessern.</li>
+    </ul>
+    <p>Die Daten werden zu keinem anderen Zweck verwendet.</p>
 
     <h2>5. Speicherung und Sicherheit</h2>
     <ul>
-      <li>OAuth-Tokens werden <strong>ausschließlich lokal</strong> in einer Datei auf dem Computer des Betreibers gespeichert. Sie werden nie auf einen Server, in ein Repository oder in einen Cloud-Dienst des Entwicklers hochgeladen.</li>
-      <li>Die App hat keinen Backend-Server und keine Datenbank. Netzwerkkommunikation findet nur zwischen dem lokalen Computer und den OAuth- bzw. YouTube-API-Endpunkten von Google statt, verschlüsselt per HTTPS.</li>
-      <li>Client-Secret und Token-Dateien sind von der Versionskontrolle ausgenommen und durch die Sicherheitsmaßnahmen des Betreiber-Computers geschützt.</li>
+      <li>OAuth-Tokens (Access- und Refresh-Token) werden <strong>ausschließlich lokal</strong> in Dateien auf dem Computer des Betreibers gespeichert, eine Datei pro verbundenem Kanal.</li>
+      <li>Abgerufene Statistiken und Berichte werden lokal als Dateien gespeichert (z. B. JSON, Tabellen).</li>
+      <li>Die App hat keinen Backend-Server und keine Datenbank. Die Kommunikation mit den OAuth-, YouTube-Data-API- und YouTube-Analytics-API-Endpunkten von Google ist per HTTPS verschlüsselt.</li>
+      <li>Client-Secret, Token-Dateien und Statistiken sind von der Versionskontrolle ausgenommen und werden nie veröffentlicht.</li>
     </ul>
 
-    <h2>6. Weitergabe</h2>
-    <p>Google-Nutzerdaten werden <strong>nicht</strong> verkauft, vermietet, geteilt oder an Dritte übermittelt. Sie werden nicht für Werbung oder Profiling verwendet und nicht zur Entwicklung, Verbesserung oder zum Training allgemeiner KI-/ML-Modelle genutzt. Außer dem Betreiber als Kontoinhaber hat niemand Einsicht in die Daten.</p>
+    <h2>6. Einsatz eines KI-Assistenten</h2>
+    <p>Um Ergebnisse auszuwerten und Verbesserungen zu planen, können Video-Metadaten und zusammengefasste Statistiken der eigenen Kanäle des Betreibers im Auftrag des Betreibers mit dem KI-Assistenten Claude (Anthropic PBC) verarbeitet werden. Dies dient ausschließlich dazu, dem Betreiber Erkenntnisse zu liefern. Die Daten werden weder an Anthropic noch an andere zu einem anderen Zweck übermittelt, und der Betreiber hat der Nutzung dieser Daten zum Training von KI-Modellen widersprochen.</p>
 
-    <h2>7. Hinweis zur eingeschränkten Nutzung (Limited Use)</h2>
-    <p>Die Nutzung und Übertragung von Informationen, die AsRe Uploader von Google-APIs erhält, erfolgt gemäß der
+    <h2>7. Weitergabe</h2>
+    <p>Google-Nutzerdaten werden <strong>nicht</strong> verkauft, vermietet oder an Dritte weitergegeben, abgesehen von der in Abschnitt 6 beschriebenen Verarbeitung. Sie werden nicht für Werbung oder Profiling verwendet und nicht zur Entwicklung, Verbesserung oder zum Training allgemeiner KI-/ML-Modelle genutzt. Außer dem Betreiber als Inhaber der Kanäle hat niemand Zugriff auf die Daten.</p>
+
+    <h2>8. Hinweis zur eingeschränkten Nutzung (Limited Use)</h2>
+    <p>Die Nutzung und Übertragung von Informationen, die AsRe Channel Tools von Google-APIs erhält, erfolgt gemäß der
     <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>,
     einschließlich der Anforderungen zur eingeschränkten Nutzung („Limited Use“).</p>
 
-    <h2>8. YouTube API Services</h2>
+    <h2>9. YouTube API Services</h2>
     <p>Die App nutzt die YouTube API Services. Mit der Nutzung der App stimmst du den
     <a href="https://www.youtube.com/t/terms">Nutzungsbedingungen von YouTube</a> zu.
     Für die Datenverarbeitung durch Google gilt die
     <a href="https://policies.google.com/privacy">Datenschutzerklärung von Google</a>.</p>
 
-    <h2>9. Speicherdauer und Löschung</h2>
+    <h2>10. Speicherdauer und Löschung</h2>
     <ul>
-      <li>Tokens bleiben lokal gespeichert, bis der Betreiber die Token-Datei löscht oder den Zugriff widerruft.</li>
-      <li>Der Zugriff kann jederzeit unter <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a> widerrufen werden (Google-Konto → Sicherheit → Drittanbieter-Apps mit Kontozugriff). Danach sind die gespeicherten Tokens ungültig und werden lokal gelöscht.</li>
+      <li>Tokens und Statistiken der eigenen Kanäle werden lokal gespeichert, solange die Autorisierung aktiv ist und die Daten für die Auswertung benötigt werden.</li>
+      <li>Der Zugriff kann jederzeit über die Google-Sicherheitseinstellungen unter <a href="https://security.google.com/settings/security/permissions">security.google.com/settings/security/permissions</a> widerrufen werden. Nach dem Widerruf werden die gespeicherten Tokens und die über die Autorisierung erhaltenen Daten innerhalb von 7 Tagen gelöscht.</li>
+      <li>Öffentliche Daten anderer Kanäle werden innerhalb von 30 Tagen aktualisiert oder gelöscht.</li>
       <li>Hochgeladene Videos werden von YouTube gespeichert und können im YouTube Studio verwaltet oder gelöscht werden.</li>
       <li>Löschanfragen bitte an <a href="mailto:reneascher1301@gmail.com">reneascher1301@gmail.com</a>.</li>
     </ul>
 
-    <h2>10. Diese Website</h2>
+    <h2>11. Diese Website</h2>
     <p>Diese Website ist eine statische Seite, gehostet auf GitHub Pages (GitHub Inc., USA). Sie verwendet keine Cookies, keine Analyse- und keine Tracking-Tools. Beim Aufruf kann GitHub technische Daten wie deine IP-Adresse in Server-Logfiles zu Sicherheits- und Betriebszwecken verarbeiten; siehe das
     <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a>.
     Deine Sprachauswahl (EN/DE) wird nur im lokalen Speicher deines Browsers abgelegt.</p>
 
-    <h2>11. Deine Rechte</h2>
+    <h2>12. Deine Rechte</h2>
     <p>Nach der DSGVO hast du das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Außerdem kannst du Beschwerde bei der österreichischen <a href="https://www.dsb.gv.at">Datenschutzbehörde (dsb.gv.at)</a> einlegen.</p>
 
-    <h2>12. Änderungen</h2>
+    <h2>13. Änderungen</h2>
     <p>Diese Erklärung kann angepasst werden, wenn sich die App ändert. Die aktuelle Fassung ist immer auf dieser Seite abrufbar.</p>
   </section>
 </main>
