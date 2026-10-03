@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moped Tankliste</title>
+<style>
+:root{
+  --bg:#f4f5f7; --card:#fff; --text:#1c2430; --muted:#6b7686; --line:#e3e6eb;
+  --accent:#e8590c; --accent-soft:#fff1e8; --good:#2b8a3e; --bad:#c92a2a; --blue:#1c7ed6;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#14171c; --card:#1d222a; --text:#e8ebf0; --muted:#97a1b0; --line:#2d343f;
+    --accent:#ff8a3d; --accent-soft:#2e2218; --good:#51cf66; --bad:#ff6b6b; --blue:#4dabf7; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 "Segoe UI",system-ui,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-size:24px;margin:0}
+h1 small{display:block;font-size:13px;font-weight:400;color:var(--muted)}
+h2{font-size:15px;margin:0 0 10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.grid{display:grid;gap:14px}
+.g-kpi{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.g-2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-size:22px;font-weight:600;margin-top:2px}
+.kpi .s{font-size:12px;color:var(--muted)}
+.kpi.hi{background:var(--accent-soft);border-color:var(--accent)}
+form{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;align-items:end}
+label{display:flex;flex-direction:column;font-size:12px;color:var(--muted);gap:3px}
+input{font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+input:focus{outline:2px solid var(--accent);outline-offset:-1px}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:8px;padding:8px 14px}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+button.sm{padding:2px 8px;font-size:12px}
+.preview{grid-column:1/-1;font-size:13px;color:var(--muted);min-height:20px}
+.preview b{color:var(--text)}
+.warn{color:var(--bad)}
+details{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;background:var(--card)}
+details details{margin:8px 10px;background:var(--bg)}
+summary{cursor:pointer;padding:10px 14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸";color:var(--muted);transition:transform .15s}
+details[open]>summary::before{transform:rotate(90deg)}
+summary .t{font-weight:600;min-width:90px}
+summary .m{font-size:13px;color:var(--muted)}
+summary .m b{color:var(--text);font-weight:600}
+.year>summary .t{font-size:17px}
+.tw{overflow-x:auto;padding:0 10px 10px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12px;color:var(--muted);font-weight:600}
+th:nth-child(2),td:nth-child(2),th.note,td.note{text-align:left}
+td.note{white-space:normal;color:var(--muted)}
+tr.sum td{font-weight:600;border-bottom:none}
+svg{width:100%;height:auto;display:block}
+.ax{fill:var(--muted);font-size:10px}
+.empty{color:var(--muted);text-align:center;padding:20px}
+.bar{display:flex;gap:8px;flex-wrap:wrap}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);padding:18px;max-width:420px;width:92%}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dialog form{grid-template-columns:1fr}
+.insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px 24px;margin:0;padding:0;list-style:none}
+.insights li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding:4px 0;font-size:14px}
+.insights li span:first-child{color:var(--muted)}
+.insights li span:last-child{font-weight:600;text-align:right}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🛵 <span id="bikeName">Moped</span> – Tankliste<small id="bikeSub"></small></h1>
+    <div class="bar">
+      <button id="btnSettings">⚙ Einstellungen</button>
+      <button id="btnExport">⬇ Sichern (JSON)</button>
+      <button id="btnCsv">⬇ CSV</button>
+      <button id="btnImport">⬆ Laden</button>
+      <input type="file" id="fileImport" accept=".json,application/json" hidden>
+    </div>
+  </header>
+
+  <div class="card">
+    <h2 id="formTitle">Neue Tankung</h2>
+    <form id="form" autocomplete="off">
+      <label>Datum<input type="date" id="fDate" required></label>
+      <label>Kilometerstand<input type="text" inputmode="numeric" id="fKm" placeholder="z. B. 18000" required></label>
+      <label>Getankte Liter<input type="text" inputmode="decimal" id="fLiters" placeholder="z. B. 5,20" required></label>
+      <label>Preis/L (€)<input type="text" inputmode="decimal" id="fPrice" placeholder="z. B. 1,939" required></label>
+      <label>Notiz<input type="text" id="fNote" placeholder="optional"></label>
+      <div class="bar"><button type="submit" class="primary" id="btnSave">Speichern</button><button type="button" id="btnCancel" hidden>Abbrechen</button></div>
+      <div class="preview" id="preview"></div>
+    </form>
+  </div>
+
+  <h2>Auswertung</h2>
+  <div class="grid g-kpi" id="kpis" style="margin-bottom:14px"></div>
+
+  <div class="grid g-2">
+    <div class="card"><h2>Verbrauch pro Tankung (L/100 km)</h2><div id="chCons"></div></div>
+    <div class="card"><h2>Kosten pro Monat (€)</h2><div id="chCost"></div></div>
+    <div class="card"><h2>Spritpreis (€/L)</h2><div id="chPrice"></div></div>
+    <div class="card"><h2>Weitere Kennzahlen</h2><ul class="insights" id="insights"></ul></div>
+  </div>
+
+  <h2 style="margin-top:6px">Tankungen nach Jahr &amp; Monat</h2>
+  <div id="list"></div>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" id="setForm">
+    <h2>Einstellungen</h2>
+    <label>Fahrzeug<input id="sName"></label>
+    <label>Beschreibung<input id="sSub"></label>
+    <label>Tankinhalt (Liter)<input id="sTank" inputmode="decimal"></label>
+    <label>Start-km (Stand vor der 1. Tankung)<input id="sStart" inputmode="numeric"></label>
+    <label>Tank-Empfehlung ab (% der Reichweite)<input id="sPct" inputmode="numeric"></label>
+    <div class="bar"><button class="primary" value="ok">Übernehmen</button><button value="cancel" formnovalidate>Abbrechen</button></div>
+  </form>
+</dialog>
+
+<script>
+"use strict";
+const KEY = "moped_tankliste_v1";
+const MONTHS = ["Jänner","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+const $ = id => document.getElementById(id);
+
+/* ---------- Daten ---------- */
+function seed(){
+  const d = n => new Date(Date.UTC(1899,11,30) + n*86400000).toISOString().slice(0,10); // Excel-Seriennummer
+  return {
+    settings:{ name:"Moped", sub:"Gilera SMT 50 (2017)", tank:6.9, startKm:17400, pct:80 },
+    entries:[
+      {id:1,date:d(46281),km:17581,liters:5.77,price:1.934,note:""},
+      {id:2,date:d(46288),km:17760,liters:4.58,price:1.909,note:""},
+      {id:3,date:d(46295),km:17881,liters:5.17,price:1.939,note:""}
+    ], nextId:4
+  };
+}
+function load(){
+  try{ const s = localStorage.getItem(KEY); if(s) return JSON.parse(s); }catch(e){}
+  return seed();
+}
+let db = load();
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(db)); }catch(e){ alert("Speichern im Browser nicht möglich – bitte 'Sichern (JSON)' verwenden."); } }
+
+/* ---------- Format ---------- */
+const nf = (v,d=2) => v==null||isNaN(v) ? "–" : v.toLocaleString("de-AT",{minimumFractionDigits:d,maximumFractionDigits:d});
+const eur = (v,d=2) => v==null||isNaN(v) ? "–" : nf(v,d)+" €";
+const dateDe = iso => { const [y,m,d]=iso.split("-"); return `${d}.${m}.${y}`; };
+const num = s => { s=String(s).trim().replace(/\s/g,""); if(s.includes(",")) s=s.replace(/\./g,"").replace(",","."); return s===""?NaN:Number(s); };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- Berechnung (wie in Excel) ---------- */
+function compute(){
+  const S = db.settings;
+  const rows = [...db.entries].sort((a,b)=> a.date.localeCompare(b.date) || a.km-b.km);
+  let prev = S.startKm;
+  rows.forEach((r,i)=>{
+    r.nr = i+1;
+    r.total = r.liters*r.price;                       // Gesamt (€)
+    r.dist = r.km - prev;                             // km seit letztem Tanken
+    r.cons = r.dist>0 ? r.liters/r.dist*100 : null;   // Verbrauch L/100 km
+    r.per100 = r.dist>0 ? r.total/r.dist*100 : null;  // Kosten €/100 km
+    prev = r.km;
+  });
+  return rows;
+}
+function agg(rs){
+  const liters = rs.reduce((a,r)=>a+r.liters,0), cost = rs.reduce((a,r)=>a+r.total,0);
+  const valid = rs.filter(r=>r.dist>0);
+  const km = valid.reduce((a,r)=>a+r.dist,0), lv = valid.reduce((a,r)=>a+r.liters,0), cv = valid.reduce((a,r)=>a+r.total,0);
+  return { n:rs.length, liters, cost, km, avgPrice: liters? cost/liters : null,
+           cons: km? lv/km*100 : null, per100: km? cv/km*100 : null };
+}
+
+/* ---------- Rendering ---------- */
+function render(){
+  const S = db.settings, rows = compute(), A = agg(rows);
+  $("bikeName").textContent = S.name; $("bikeSub").textContent = S.sub;
+  document.title = S.name + " Tankliste";
+
+  // KPIs inkl. Reichweite
+  const range = A.cons ? S.tank/A.cons*100 : null;
+  const last = rows[rows.length-1];
+  const kpi = (l,v,s="",cls="") => `<div class="kpi ${cls}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
+  $("kpis").innerHTML =
+    kpi("Anzahl Tankungen", A.n) +
+    kpi("Getankte Liter", nf(A.liters)+" L") +
+    kpi("Kosten gesamt", eur(A.cost)) +
+    kpi("Gesamt gefahrene km", last? nf(last.km-S.startKm,0)+" km":"–", last? "Stand "+nf(last.km,0)+" km":"") +
+    kpi("Ø Preis/L", A.avgPrice? nf(A.avgPrice,3)+" €":"–") +
+    kpi("Ø Verbrauch", A.cons? nf(A.cons)+" L/100 km":"–") +
+    kpi("Ø km/Tank", A.n? nf(A.km/A.n,0)+" km":"–") +
+    kpi("Reichweite (Tank "+nf(S.tank,1)+" L)", range? nf(range,0)+" km":"–", range? "Tanken ab ca. "+nf(range*S.pct/100,0)+" km":"", "hi");
+
+  // Weitere Kennzahlen
+  const cons = rows.filter(r=>r.cons!=null);
+  const best = cons.reduce((a,r)=>!a||r.cons<a.cons?r:a,null), worst = cons.reduce((a,r)=>!a||r.cons>a.cons?r:a,null);
+  const cheap = rows.reduce((a,r)=>!a||r.price<a.price?r:a,null), dear = rows.reduce((a,r)=>!a||r.price>a.price?r:a,null);
+  let days=null; if(rows.length>1) days = (new Date(rows.at(-1).date)-new Date(rows[0].date))/86400000/(rows.length-1);
+  let kmPerMonth=null; if(rows.length>1){ const span=(new Date(rows.at(-1).date)-new Date(rows[0].date))/86400000; if(span>0) kmPerMonth = (rows.at(-1).km-rows[0].km)/span*30.44; }
+  const li = (l,v)=>`<li><span>${l}</span><span>${v}</span></li>`;
+  $("insights").innerHTML =
+    li("Kosten pro 100 km", A.per100? eur(A.per100):"–") +
+    li("Kosten pro km", A.per100? eur(A.per100/100,3):"–") +
+    li("Sparsamste Tankung", best? `${nf(best.cons)} L/100 km (${dateDe(best.date)})`:"–") +
+    li("Durstigste Tankung", worst? `${nf(worst.cons)} L/100 km (${dateDe(worst.date)})`:"–") +
+    li("Günstigster Preis", cheap? `${nf(cheap.price,3)} € (${dateDe(cheap.date)})`:"–") +
+    li("Teuerster Preis", dear? `${nf(dear.price,3)} € (${dateDe(dear.date)})`:"–") +
+    li("Ø Tage zwischen Tankungen", days!=null? nf(days,1):"–") +
+    li("Ø Kilometer pro Monat", kmPerMonth!=null? nf(kmPerMonth,0)+" km":"–") +
+    li("Ø Liter pro Tankung", A.n? nf(A.liters/A.n)+" L":"–") +
+    li("Ø Kosten pro Tankung", A.n? eur(A.cost/A.n):"–") +
+    li("CO₂ (ca. 2,31 kg/L Benzin)", A.liters? nf(A.liters*2.31,1)+" kg":"–") +
+    li("Hochgerechnet pro Jahr", kmPerMonth&&A.per100? eur(kmPerMonth*12*A.per100/100,0):"–");
+
+  // Monatsdaten für Diagramm
+  const byMonth = {};
+  rows.forEach(r=>{ const k=r.date.slice(0,7); (byMonth[k] ||= []).push(r); });
+  const mKeys = Object.keys(byMonth).sort();
+
+  $("chCons").innerHTML  = lineChart(cons.map(r=>({x:"#"+r.nr, y:r.cons})), A.cons, v=>nf(v,1));
+  $("chPrice").innerHTML = lineChart(rows.map(r=>({x:dateDe(r.date).slice(0,5), y:r.price})), null, v=>nf(v,3));
+  $("chCost").innerHTML  = barChart(mKeys.map(k=>({x:MONTHS[+k.slice(5)-1].slice(0,3)+" "+k.slice(2,4), y:agg(byMonth[k]).cost})));
+
+  // Liste Jahr > Monat
+  if(!rows.length){ $("list").innerHTML = `<div class="card empty">Noch keine Tankungen erfasst.</div>`; return; }
+  const years = [...new Set(rows.map(r=>r.date.slice(0,4)))].sort().reverse();
+  const openYear = years[0], openMonth = mKeys.at(-1);
+  $("list").innerHTML = years.map(y=>{
+    const ry = rows.filter(r=>r.date.startsWith(y)), ay = agg(ry);
+    const ms = mKeys.filter(k=>k.startsWith(y)).reverse();
+    return `<details class="year" ${y===openYear?"open":""}>
+      <summary><span class="t">${y}</span>${sumLine(ay)}</summary>
+      ${ms.map(k=>{
+        const rm = byMonth[k], am = agg(rm);
+        return `<details ${k===openMonth?"open":""}>
+          <summary><span class="t">${MONTHS[+k.slice(5)-1]}</span>${sumLine(am)}</summary>
+          <div class="tw">${table(rm.slice().reverse(), am)}</div></details>`;
+      }).join("")}
+    </details>`;
+  }).join("");
+}
+function sumLine(a){
+  return `<span class="m"><b>${a.n}</b> Tankung${a.n===1?"":"en"}</span>
+    <span class="m"><b>${nf(a.liters)}</b> L</span>
+    <span class="m"><b>${eur(a.cost)}</b></span>
+    <span class="m"><b>${nf(a.km,0)}</b> km</span>
+    <span class="m">Ø <b>${nf(a.cons)}</b> L/100 km</span>`;
+}
+function table(rs,a){
+  const avg = agg(rs).cons;
+  return `<table><thead><tr><th>Nr.</th><th>Datum</th><th>km-Stand</th><th>Liter</th><th>Preis/L</th><th>Gesamt</th><th>km seit letzt.</th><th>L/100 km</th><th class="note">Notiz</th><th></th></tr></thead><tbody>
+  ${rs.map(r=>{
+    const hi = r.cons!=null && avg && r.cons>avg*1.4 ? ' class="warn" title="Deutlich über dem Durchschnitt"' : "";
+    return `<tr><td>${r.nr}</td><td>${dateDe(r.date)}</td><td>${nf(r.km,0)}</td><td>${nf(r.liters)}</td><td>${nf(r.price,3)}</td><td>${eur(r.total)}</td>
+      <td>${r.dist>0?nf(r.dist,0):"–"}</td><td${hi}>${r.cons!=null?nf(r.cons):"–"}</td><td class="note">${esc(r.note||"")}</td>
+      <td><button class="sm" data-edit="${r.id}">✎</button> <button class="sm" data-del="${r.id}">🗑</button></td></tr>`;}).join("")}
+  <tr class="sum"><td></td><td>Summe</td><td></td><td>${nf(a.liters)}</td><td>Ø ${nf(a.avgPrice,3)}</td><td>${eur(a.cost)}</td><td>${nf(a.km,0)}</td><td>Ø ${nf(a.cons)}</td><td></td><td></td></tr>
+  </tbody></table>`;
+}
+
+/* ---------- Diagramme (SVG) ---------- */
+function frame(vals, fmt){
+  const W=560,H=210,L=44,R=12,T=14,B=26;
+  let mn=Math.min(...vals), mx=Math.max(...vals);
+  if(mn===mx){ mn-=1; mx+=1; } const pad=(mx-mn)*.15; mn-=pad; mx+=pad;
+  const y = v => T+(H-T-B)*(1-(v-mn)/(mx-mn));
+  let g=""; for(let i=0;i<=4;i++){ const v=mn+(mx-mn)*i/4; g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text class="ax" x="${L-6}" y="${y(v)+3}" text-anchor="end">${fmt(v)}</text>`; }
+  return {W,H,L,R,T,B,y,g,mn,mx};
+}
+function lineChart(pts, avg, fmt){
+  if(pts.length<1) return `<div class="empty">Noch keine Daten</div>`;
+  const f = frame(pts.map(p=>p.y).concat(avg?[avg]:[]), fmt);
+  const step = (f.W-f.L-f.R)/Math.max(pts.length-1,1);
+  const X = i => pts.length===1 ? (f.L+f.W-f.R)/2 : f.L+i*step;
+  const path = pts.map((p,i)=>(i?"L":"M")+X(i)+","+f.y(p.y)).join(" ");
+  const every = Math.ceil(pts.length/8);
+  return `<svg viewBox="0 0 ${f.W} ${f.H}">${f.g}
+    ${avg?`<line x1="${f.L}" x2="${f.W-f.R}" y1="${f.y(avg)}" y2="${f.y(avg)}" stroke="var(--muted)" stroke-dasharray="4 4"/><text class="ax" x="${f.W-f.R}" y="${f.y(avg)-4}" text-anchor="end">Ø ${fmt(avg)}</text>`:""}
+    <path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+    ${pts.map((p,i)=>`<circle cx="${X(i)}" cy="${f.y(p.y)}" r="4" fill="var(--accent)"><title>${p.x}: ${fmt(p.y)}</title></circle>${i%every===0?`<text class="ax" x="${X(i)}" y="${f.H-8}" text-anchor="middle">${p.x}</text>`:""}`).join("")}
+  </svg>`;
+}
+function barChart(pts){
+  if(!pts.length) return `<div class="empty">Noch keine Daten</div>`;
+  const f = frame([0,...pts.map(p=>p.y)], v=>nf(v,0));
+  const slot=(f.W-f.L-f.R)/pts.length, bw=Math.min(46,slot*.65), base=f.y(0);
+  return `<svg viewBox="0 0 ${f.W} ${f.H}">${f.g}
+    ${pts.map((p,i)=>{ const cx=f.L+slot*(i+.5), top=f.y(p.y);
+      return `<rect x="${cx-bw/2}" y="${top}" width="${bw}" height="${Math.max(base-top,0)}" rx="3" fill="var(--blue)"><title>${p.x}: ${eur(p.y)}</title></rect>
+      <text class="ax" x="${cx}" y="${top-4}" text-anchor="middle">${nf(p.y,0)}</text><text class="ax" x="${cx}" y="${f.H-8}" text-anchor="middle">${p.x}</text>`;}).join("")}
+  </svg>`;
+}
+
+/* ---------- Formular ---------- */
+let editId = null;
+const today = () => { const d=new Date(); return new Date(d-d.getTimezoneOffset()*60000).toISOString().slice(0,10); };
+function resetForm(){
+  editId=null; $("form").reset(); $("fDate").value=today();
+  $("formTitle").textContent="Neue Tankung"; $("btnSave").textContent="Speichern"; $("btnCancel").hidden=true;
+  updatePreview();
+}
+function readForm(){
+  return { date:$("fDate").value, km:num($("fKm").value), liters:num($("fLiters").value), price:num($("fPrice").value), note:$("fNote").value.trim() };
+}
+function updatePreview(){
+  const e=readForm(), p=$("preview");
+  const rows=compute().filter(r=>r.id!==editId);
+  const before=rows.filter(r=>r.date<e.date || (r.date===e.date && r.km<e.km)).at(-1);
+  const prevKm = before? before.km : db.settings.startKm;
+  const parts=[];
+  if(e.liters>0 && e.price>0) parts.push(`Gesamt: <b>${eur(e.liters*e.price)}</b>`);
+  if(e.km>0){
+    const dist=e.km-prevKm;
+    if(dist<=0) parts.push(`<span class="warn">Kilometerstand ist nicht höher als davor (${nf(prevKm,0)} km)</span>`);
+    else{ parts.push(`Seit letztem Tanken: <b>${nf(dist,0)} km</b>`);
+      if(e.liters>0){ const c=e.liters/dist*100; parts.push(`Verbrauch: <b>${nf(c)} L/100 km</b>`);
+        const avgC=agg(rows).cons;
+        if(avgC && c>avgC*1.4) parts.push(`<span class="warn">deutlich über Ø</span>`); } }
+  }
+  p.innerHTML = parts.join(" &nbsp;·&nbsp; ");
+}
+$("form").addEventListener("input", updatePreview);
+$("form").addEventListener("submit", ev=>{
+  ev.preventDefault();
+  const e=readForm();
+  if(!e.date || !(e.km>0) || !(e.liters>0) || !(e.price>0)){ alert("Bitte Datum, Kilometerstand, Liter und Preis korrekt ausfüllen."); return; }
+  if(editId!=null){ Object.assign(db.entries.find(x=>x.id===editId), e); }
+  else { db.entries.push({id:db.nextId++, ...e}); }
+  save(); resetForm(); render();
+});
+$("btnCancel").onclick = resetForm;
+$("list").addEventListener("click", ev=>{
+  const del=ev.target.closest("[data-del]"), ed=ev.target.closest("[data-edit]");
+  if(del){ if(confirm("Diese Tankung löschen?")){ db.entries=db.entries.filter(x=>x.id!==+del.dataset.del); save(); render(); } }
+  if(ed){ const r=db.entries.find(x=>x.id===+ed.dataset.edit); editId=r.id;
+    $("fDate").value=r.date; $("fKm").value=r.km; $("fLiters").value=String(r.liters).replace(".",","); $("fPrice").value=String(r.price).replace(".",","); $("fNote").value=r.note||"";
+    $("formTitle").textContent="Tankung bearbeiten"; $("btnSave").textContent="Änderung speichern"; $("btnCancel").hidden=false;
+    updatePreview(); window.scrollTo({top:0,behavior:"smooth"}); }
+});
+
+/* ---------- Einstellungen / Export ---------- */
+$("btnSettings").onclick=()=>{ const S=db.settings;
+  $("sName").value=S.name; $("sSub").value=S.sub; $("sTank").value=String(S.tank).replace(".",","); $("sStart").value=S.startKm; $("sPct").value=S.pct; $("dlg").showModal(); };
+$("setForm").addEventListener("submit", ev=>{
+  if(ev.submitter && ev.submitter.value!=="ok") return;
+  const S=db.settings; S.name=$("sName").value||"Moped"; S.sub=$("sSub").value;
+  S.tank=num($("sTank").value)||S.tank; S.startKm=num($("sStart").value)||0; S.pct=num($("sPct").value)||80;
+  save(); render();
+});
+function download(name,text,type){ const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([text],{type})); a.download=name; a.click(); URL.revokeObjectURL(a.href); }
+$("btnExport").onclick=()=>download("Moped_Tankliste_"+today()+".json", JSON.stringify(db,null,1), "application/json");
+$("btnCsv").onclick=()=>{
+  const h=["Tank-Nr.","Datum","Kilometerstand","Liter","Preis/L","Gesamt","km seit letztem Tanken","Verbrauch L/100km","Notiz"];
+  const lines=[h.join(";")].concat(compute().map(r=>[r.nr,dateDe(r.date),r.km,nf(r.liters),nf(r.price,3),nf(r.total),r.dist,r.cons!=null?nf(r.cons):"",'"'+(r.note||"").replace(/"/g,'""')+'"'].join(";")));
+  download("Moped_Tankliste.csv","﻿"+lines.join("\r\n"),"text/csv");
+};
+$("btnImport").onclick=()=>$("fileImport").click();
+$("fileImport").onchange=async ev=>{
+  const f=ev.target.files[0]; if(!f) return;
+  try{ const d=JSON.parse(await f.text()); if(!d.entries||!d.settings) throw 0;
+    if(confirm("Aktuelle Daten durch die Sicherung ersetzen?")){ db=d; save(); resetForm(); render(); } }
+  catch(e){ alert("Datei konnte nicht gelesen werden."); }
+  ev.target.value="";
+};
+
+resetForm(); render();
+</script>
+</body>
+</html>
