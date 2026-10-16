@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>TikTok-Login</title>
+<style>body{font-family:system-ui,sans-serif;max-width:32rem;margin:4rem auto;padding:0 1rem;color:#222}</style>
+</head>
+<body>
+<h1>TikTok-Login</h1>
+<p id="msg">Du wirst zurück zum lokalen Programm geleitet …</p>
+<noscript><p>Bitte JavaScript aktivieren.</p></noscript>
+<script>
+// Reicht die Antwort von TikTok (code, state) unverändert an das Programm auf dem eigenen Rechner weiter.
+// Es werden keine Daten gespeichert oder an einen Server gesendet.
+(function () {
+  var q = location.search;
+  if (!q) { document.getElementById('msg').textContent = 'Diese Seite wird nach der TikTok-Anmeldung automatisch aufgerufen.'; return; }
+  location.replace('http://127.0.0.1:53682/callback' + q);
+})();
+</script>
+</body>
+</html>
